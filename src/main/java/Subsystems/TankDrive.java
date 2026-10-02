@@ -39,10 +39,10 @@ public class TankDrive extends SubsystemBase{
     @SuppressWarnings("removal")
     public void init(){
         frontleft = new SparkMax(kmotorCanID1, MotorType.kBrushless);
-        frontleft.configure(ReverseConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        frontleft.configure(DefaultConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
         frontright = new SparkMax(kmotorCanID2, MotorType.kBrushless);
-        frontright.configure(DefaultConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        frontright.configure(ReverseConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
         backleft = new SparkMax(kmotorCanID3, MotorType.kBrushless);
         backleft.configure(DefaultConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
