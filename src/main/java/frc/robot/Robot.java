@@ -17,6 +17,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    tankdrive = new TankDrive();
     tankdrive.init();
     controller = new XboxController(0);
   }

@@ -1,11 +1,11 @@
 package Subsystems;
 
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -29,26 +29,26 @@ public class TankDrive extends SubsystemBase{
         DefaultConfig.smartCurrentLimit(50);
         DefaultConfig.idleMode(IdleMode.kCoast);
         DefaultConfig.openLoopRampRate(1.0);
-        DefaultConfig.inverted(false);
+        DefaultConfig.inverted(true);
     }
     static {
-        ReverseConfig = DefaultConfig;
-        ReverseConfig.inverted(true);
+        ReverseConfig.apply(DefaultConfig);
+        ReverseConfig.inverted(false);
     }
 
-    @SuppressWarnings("removal")
+    
     public void init(){
         frontleft = new SparkMax(kmotorCanID1, MotorType.kBrushless);
-        frontleft.configure(DefaultConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        frontleft.configure(DefaultConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         frontright = new SparkMax(kmotorCanID2, MotorType.kBrushless);
-        frontright.configure(ReverseConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        frontright.configure(ReverseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         backleft = new SparkMax(kmotorCanID3, MotorType.kBrushless);
-        backleft.configure(DefaultConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        backleft.configure(DefaultConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         backright = new SparkMax(kmotorCanID4, MotorType.kBrushless);
-        backright. configure(ReverseConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        backright. configure(ReverseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public void drive(double left, double right){
