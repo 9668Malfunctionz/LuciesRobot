@@ -6,11 +6,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import Subsystems.TankDrive;
+import Subsystems.Arm;
 
 public class Robot extends TimedRobot {
 
   private XboxController controller;
   private TankDrive tankdrive;
+  private Arm arm;
 
   public Robot() {}
 
@@ -19,6 +21,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     tankdrive = new TankDrive();
     tankdrive.init();
+    arm = new Arm();
+    arm.init();
     controller = new XboxController(0);
   }
 
@@ -37,6 +41,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     tankdrive.drive(controller.getLeftY(), controller.getRightY());
+    arm.raise(controller.getRightTriggerAxis()-controller.getLeftTriggerAxis());
   }
 
   @Override

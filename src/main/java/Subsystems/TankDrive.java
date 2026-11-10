@@ -24,6 +24,7 @@ public class TankDrive extends SubsystemBase{
     public static final int kmotorCanID3 = 3;
     public static final int kmotorCanID4 = 4;
     
+    public double speedlimit = 0.2;
 
     static {
         DefaultConfig.smartCurrentLimit(50);
@@ -41,21 +42,21 @@ public class TankDrive extends SubsystemBase{
         frontleft = new SparkMax(kmotorCanID1, MotorType.kBrushless);
         frontleft.configure(DefaultConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        frontright = new SparkMax(kmotorCanID2, MotorType.kBrushless);
+        frontright = new SparkMax(kmotorCanID4, MotorType.kBrushless);
         frontright.configure(ReverseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        backleft = new SparkMax(kmotorCanID3, MotorType.kBrushless);
+        backleft = new SparkMax(kmotorCanID2, MotorType.kBrushless);
         backleft.configure(DefaultConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        backright = new SparkMax(kmotorCanID4, MotorType.kBrushless);
+        backright = new SparkMax(kmotorCanID3, MotorType.kBrushless);
         backright. configure(ReverseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public void drive(double left, double right){
 
         if (Math.abs(left) > 0.05) {
-            frontleft.set(left);
-            backleft.set(left);
+            frontleft.set(left*speedlimit);
+            backleft.set(left*speedlimit);
         }
         else {
             frontleft.stopMotor();
@@ -64,8 +65,8 @@ public class TankDrive extends SubsystemBase{
 
         
         if (Math.abs(right) > 0.05) {
-            frontright.set(right);
-            backright.set(right);
+            frontright.set(right*speedlimit);
+            backright.set(right*speedlimit);
         }
         else { 
             frontright.stopMotor();
