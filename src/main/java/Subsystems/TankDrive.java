@@ -7,6 +7,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TankDrive extends SubsystemBase{
@@ -25,6 +26,7 @@ public class TankDrive extends SubsystemBase{
     public static final int kmotorCanID4 = 4;
     
     public double speedlimit = 0.2;
+    private static final double kprecisionScale = 0.35;
 
     static {
         DefaultConfig.smartCurrentLimit(50);
@@ -50,6 +52,22 @@ public class TankDrive extends SubsystemBase{
 
         backright = new SparkMax(kmotorCanID3, MotorType.kBrushless);
         backright. configure(ReverseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    }
+
+    public void arcadeDrive(double forward, double turn, boolean precision){
+        forward = MathUtil.applyDeadband(forward, 0.05);
+        turn = MathUtil.applyDeadband(turn, 0.05);
+
+        // Keep the motor directions used by tank drive.
+        double left = -forward-turn;
+        double right = -forward+turn;
+        double maxOutput = Math.max(1.0, Math.max(Math.abs(left), Math.abs(right)));
+        double limit = precision ? speedlimit*kprecisionScale : speedlimit;
+
+        frontleft.set(left/maxOutput*limit);
+        backleft.set(left/maxOutput*limit);
+        frontright.set(right/maxOutput*limit);
+        backright.set(right/maxOutput*limit);
     }
 
     public void drive(double left, double right){
